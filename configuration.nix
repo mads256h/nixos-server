@@ -21,6 +21,8 @@
   security.lockKernelModules = false;
   security.protectKernelImage = false;
 
+  environment.noXlibs = false;
+
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
   networking.hostName = "server-mads"; # Define your hostname.
@@ -249,6 +251,40 @@
     podman exec cocalc apt-get install -y texlive-full
     podman exec cocalc apt-get install -y python-pygments
   '';
+
+
+  # Automatically download new youtube videos daily
+  systemd.services."update-yt" = {
+    serviceConfig = {
+      Type = "oneshot";
+      User = "mads";
+    };
+    path = with pkgs; [ cmake yt-dlp ];
+    script = ''
+      cd "/mnt/share/Mads/Videoklip/yt/"
+      for D in */; do
+       pushd "''${D}"
+       echo "Updating ''${D%/}..."
+
+       if [ -f "download.txt" ]; then
+         cat "download.txt" | xargs yt-dlp -f bestvideo+bestaudio --add-metadata --embed-subs --all-subs --download-archive .archive -i
+       else
+         echo "No download.txt found in ''${D} skipping..."
+       fi
+       popd
+      done
+    '';
+  };
+
+  systemd.timers."update-yt" = {
+    wantedBy = [ "timers.target" ];
+    partOf = [ "update-yt.service" ];
+    timerConfig = {
+      OnCalendar = "daily";
+      Unit = "update-yt.service";
+    };
+  };
+
 
 
   # Open ports in the firewall.
