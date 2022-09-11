@@ -1,3 +1,4 @@
+# vim: ts=2 sw=2 et
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
@@ -81,7 +82,7 @@
       enable = true;
       settings = {
         hide_kernel_threads = true;
-	hide_userland_threads = true;
+        hide_userland_threads = true;
       };
     };
   };
@@ -151,12 +152,12 @@
     settings = {
       server = {
         hosts = [ "127.0.0.1:5232" ];
-	ssl = false;
+        ssl = false;
       };
       auth = {
         type = "htpasswd";
-	htpasswd_filename = "/mnt/data/radicale/users";
-	htpasswd_encryption = "md5";
+        htpasswd_filename = "/mnt/data/radicale/users";
+        htpasswd_encryption = "md5";
       };
       storage.filesystem_folder = "/mnt/data/radicale/collections";
       web.type = "none";
@@ -177,7 +178,7 @@
 
   services.nginx = {
     enable = true;
-    
+
     # recommended settings
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
@@ -191,7 +192,7 @@
       locations."/radicale/" = {
         proxyPass = "http://localhost:5232/";
         extraConfig =
-	  "proxy_set_header  X-Script-Name /radicale;" +
+          "proxy_set_header  X-Script-Name /radicale;" +
           "proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;" +
           "proxy_set_header  Host $host;" +
           "proxy_pass_header Authorization;"
@@ -201,14 +202,14 @@
       locations."/searx" = {
         basicAuthFile = "/mnt/data/searx/htpasswd";
         proxyPass = "http://127.0.0.1:8888";
-	extraConfig =
+        extraConfig =
           "proxy_set_header Host $host;" +
           "proxy_set_header Connection       $http_connection;" +
           "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;" +
           "proxy_set_header X-Scheme $scheme;" +
           "proxy_set_header X-Script-Name /searx;" +
           "proxy_buffering off;"
-	  ;
+          ;
       };
     };
 
@@ -218,9 +219,9 @@
       basicAuthFile = "/mnt/data/cocalc-proxy/htpasswd";
       locations."/" = {
         proxyPass = "https://localhost:9090/";
-	proxyWebsockets = true;
+        proxyWebsockets = true;
         extraConfig =
-	  "proxy_set_header Host $host;" +
+          "proxy_set_header Host $host;" +
           "proxy_ssl_server_name on;" +
           "proxy_pass_header Authorization;"
           ;
@@ -235,15 +236,15 @@
 
     virtualHosts."server-mads.lan" =  {
       # Only allow local connections to this virtual host
-      extraConfig = 
+      extraConfig =
           "allow 192.168.1.0/24;" +
-	  "deny all;"
-	  ;
+          "deny all;"
+          ;
 
       locations."/radicale/" = {
         proxyPass = "http://localhost:5232/";
         extraConfig =
-	  "proxy_set_header  X-Script-Name /radicale;" +
+          "proxy_set_header  X-Script-Name /radicale;" +
           "proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;" +
           "proxy_set_header  Host $host;" +
           "proxy_pass_header Authorization;"
@@ -252,14 +253,14 @@
 
       locations."/searx" = {
         proxyPass = "http://127.0.0.1:8888";
-	extraConfig =
+        extraConfig =
           "proxy_set_header Host $host;" +
           "proxy_set_header Connection       $http_connection;" +
           "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;" +
           "proxy_set_header X-Scheme $scheme;" +
           "proxy_set_header X-Script-Name /searx;" +
           "proxy_buffering off;"
-	  ;
+          ;
       };
     };
   };
@@ -299,15 +300,15 @@
     script = ''
       cd "/mnt/share/Mads/Videoklip/yt/"
       for D in */; do
-      	pushd "''${D}"
-      	echo "Updating ''${D%/}..."
+        pushd "''${D}"
+        echo "Updating ''${D%/}..."
 
-	if [ -f "download.txt" ]; then
-      	  cat "download.txt" | xargs yt-dlp -f bestvideo+bestaudio --add-metadata --embed-subs --all-subs --download-archive .archive -i
-	else
-	  echo "No download.txt found in ''${D} skipping..."
-	fi
-      	popd
+        if [ -f "download.txt" ]; then
+          cat "download.txt" | xargs yt-dlp -f bestvideo+bestaudio --add-metadata --embed-subs --all-subs --download-archive .archive -i
+        else
+          echo "No download.txt found in ''${D} skipping..."
+        fi
+        popd
       done
     '';
   };
