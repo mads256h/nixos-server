@@ -163,6 +163,15 @@
     };
   };
 
+  services.searx = {
+    enable = true;
+    settings = {
+      search.autocomplete = "google";
+      server.secret_key = "@SEARX_SECRET_KEY@";
+    };
+    environmentFile = "/mnt/data/searx/environment";
+  };
+
   security.acme.acceptTerms = true;
   security.acme.defaults.email = "mail@madsmogensen.dk";
 
@@ -178,6 +187,7 @@
     virtualHosts."home.madsmogensen.dk" =  {
       enableACME = true;
       forceSSL = true;
+
       locations."/radicale/" = {
         proxyPass = "http://localhost:5232/";
         extraConfig =
@@ -186,6 +196,19 @@
           "proxy_set_header  Host $host;" +
           "proxy_pass_header Authorization;"
           ;
+      };
+
+      locations."/searx" = {
+        basicAuthFile = "/mnt/data/searx/htpasswd";
+        proxyPass = "http://127.0.0.1:8888";
+	extraConfig =
+          "proxy_set_header Host $host;" +
+          "proxy_set_header Connection       $http_connection;" +
+          "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;" +
+          "proxy_set_header X-Scheme $scheme;" +
+          "proxy_set_header X-Script-Name /searx;" +
+          "proxy_buffering off;"
+	  ;
       };
     };
 
@@ -216,6 +239,7 @@
           "allow 192.168.1.0/24;" +
 	  "deny all;"
 	  ;
+
       locations."/radicale/" = {
         proxyPass = "http://localhost:5232/";
         extraConfig =
@@ -224,6 +248,18 @@
           "proxy_set_header  Host $host;" +
           "proxy_pass_header Authorization;"
           ;
+      };
+
+      locations."/searx" = {
+        proxyPass = "http://127.0.0.1:8888";
+	extraConfig =
+          "proxy_set_header Host $host;" +
+          "proxy_set_header Connection       $http_connection;" +
+          "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;" +
+          "proxy_set_header X-Scheme $scheme;" +
+          "proxy_set_header X-Script-Name /searx;" +
+          "proxy_buffering off;"
+	  ;
       };
     };
   };
@@ -263,15 +299,15 @@
     script = ''
       cd "/mnt/share/Mads/Videoklip/yt/"
       for D in */; do
-       pushd "''${D}"
-       echo "Updating ''${D%/}..."
+      	pushd "''${D}"
+      	echo "Updating ''${D%/}..."
 
-       if [ -f "download.txt" ]; then
-         cat "download.txt" | xargs yt-dlp -f bestvideo+bestaudio --add-metadata --embed-subs --all-subs --download-archive .archive -i
-       else
-         echo "No download.txt found in ''${D} skipping..."
-       fi
-       popd
+	if [ -f "download.txt" ]; then
+      	  cat "download.txt" | xargs yt-dlp -f bestvideo+bestaudio --add-metadata --embed-subs --all-subs --download-archive .archive -i
+	else
+	  echo "No download.txt found in ''${D} skipping..."
+	fi
+      	popd
       done
     '';
   };
