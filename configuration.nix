@@ -298,7 +298,7 @@
       Type = "oneshot";
       User = "mads";
     };
-    path = with pkgs; [ cmake yt-dlp ];
+    path = with pkgs; [ yt-dlp ];
     script = ''
       cd "/mnt/share/Mads/Videoklip/yt/"
       for D in */; do
