@@ -26,7 +26,7 @@
 
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
-  networking.hostName = "server-mads"; # Define your hostname.
+  networking.hostName = "server-mads";
 
   # Set your time zone.
   time.timeZone = "Europe/Copenhagen";
@@ -34,9 +34,7 @@
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
   console = {
-  #   font = "Lat2-Terminus16";
     keyMap = "dk";
-  #   useXkbConfig = true; # use xkbOptions in tty.
   };
 
 
@@ -47,6 +45,7 @@
       openssh.authorizedKeys.keys = [
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCeCSo+ztID41jlKZIy++UdhacKy0I4A/qqCWBBU1RP1NnoKdMcFqXyKJFLsltpuTuWKf9WnTgT+KCidMR8Foysdic5i7lGy4TMP8sa+RqNVUhLM93fM7YHrmGZHVbrg0rNVKnbFv/0lDZLiyp/l7B7vmuBtE3pCYW7nbFvoje+5pWDrpFL16qAFgIM5i3Ly9adkkObVw1Nz4tkjS5i6AJQc5ZYFzipVl5XU9NHdxg2SQrXokeX59AEN0UaUuUm/Ft0Mxyu01MyuHcqLK/b2netJrF/THj4bYu629IqDe+FT+APihhlvp40WI8Py9/dl6OSzB35XaQ1X60WBfqgLFgu6vM3NgItzVjRjb72paJ6YdVkhMJZezMdJxKfxrLXJPTLQELhETB0mFtM4tMb2Mh43Jp3oWPLg9ZtFEcKlafAWuHpbRHRsjD58UawrB3M/uq8+T+jmlh9CSRdcjIlf+Oz1AANk2rU/voUE8jhzeRLOwLNEahAb1d5mBLklOK9351gzRmYJxPuggdR0EiRchE59JiSUAmGxky0bHyOfOoqdLkd5cIxmv8FTqY2BXvHJhe8DpWaxYt/rR9ckTiNyJ+XgkvpGMDbwpoJBh1ELmZ2Iy3mg/r2Gmw83eK4w+q+Wzz3Nhm8flVikL+DAwPnfV8dObzyC62LNTWos1Gb+lY7Aw== mads@DESKTOP-MADS"
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC+dpaPAPx8PiwvhUSKmVf1IGWpFcGGNP3suSaxgy+Cxd0EuqpSZekFbO9RliGHt/yE9/u1MeNjntvwfO95bEIYkq9n12jiGKTdG+Qt6SI7IesE/UrPK/yHe2QogjAaUU6I5rAigCIM9Q7FYosU0nsWWQMjdkbyQ0OtquT3Me5NXOWhFWXRZr/molgO3EQKI4ElSUDlWgp9fJLALGE+3Jp88coPnp+yfxI2UqMY6VyranYBaiIbKv27YlaqMkhh21DNYh+smQCoz4DuSNEZiqrmLFGZoqBEO5qptu+HfIRsLwtBAKYu5s2ucZmjlF54BoRwfzDvAMuvZs6o2AB+TDBw+OANUBH4SLiD/9oBOyvCeNzFQuUViElCBI+QGbdgtXUWc6gwmMYX0lxfbIgcnmkeQL0GL4floawXWg48hvKMhuEvW8WimTHiZBi8f1ZxYaTs57BLmdEynvOSwi2ODhGMjT1au11bo5O2s9AtfQfgl57br7FSgsCzBMstcNsS3S/NcngYA5VXVwPBR1KyJVFicxcGbHRf0fbfdI1GQWgAV2fbxGmDDrqW7IH6w4SAR+6bYqNOEv51ijVvNXU9cBJQ5qlH7hj7TJpEWn5UR7LdTm96lCsaa5AICOlfkXppiOq8qRACkd1TqcT9Dq30fzuFND3Xghg8cuZ9P6zv700uyQ== mads@laptop-mads"
+	"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC5bU6DBgeyhx5r6Dvx+EL65jatr8zdDaUiDlCMIFvSdvPET6ek236E/ASMagjd4J2d1VHJ8YNEgxaaTDiXKBS4LhtZh3kW3pOIVaL/Uggv9ONX+PKcMA0vJV1P3+JFEc9GZoArN17XXmFdTcPrvUVWJ1wlcWogu7nmIOxsvU87eL5mBhu38aOlJqYjWoXUVtUZw00JY//CBrLNLPl87BG3P4vYWuA0FF8gWfp8r0DPDNQHoXRRhuWRaplfaEB4fDP+FfZtNJw+9oETToXo0MoC8nEiH8KxWWKyBosYU2+UXa5M8Vh44GoqlGFRKW8XaxR0BQmiKUMPVziBa8Xr0GXxagW3eKsmSy4c9qNb38iCrrJgHZ2oL1n56kf4AUTnWQsioQHhFj+tnKM4msmzsfd/XQr/WFiKbgoG+4rv5erEH/5bpoXJjpW5u7drpcjBkwEuFn/u3W3aCdNlYpjp6LJxOuZb5bM9DMM8KFoCNVUg/rvc2n2RQi8HkH7vvAs9WuNg6+riWPy8irEZUa0MT80xonaVA+zB51AWNeqotBb0k1kFfyvmg9lgQiVkqMc/rnKMy4s6H8iXNap8zpSfWqowDEQnzTipf+SWV46u/1JkyL653ohraFSaf13QP52aZtalfGFCrM/g0oYMVhNQ6SkiRBogOxWj2klEpsO6x7xe1Q== u0_a107@localhost"
       ];
     };
 
@@ -57,6 +56,7 @@
       openssh.authorizedKeys.keys = [
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCeCSo+ztID41jlKZIy++UdhacKy0I4A/qqCWBBU1RP1NnoKdMcFqXyKJFLsltpuTuWKf9WnTgT+KCidMR8Foysdic5i7lGy4TMP8sa+RqNVUhLM93fM7YHrmGZHVbrg0rNVKnbFv/0lDZLiyp/l7B7vmuBtE3pCYW7nbFvoje+5pWDrpFL16qAFgIM5i3Ly9adkkObVw1Nz4tkjS5i6AJQc5ZYFzipVl5XU9NHdxg2SQrXokeX59AEN0UaUuUm/Ft0Mxyu01MyuHcqLK/b2netJrF/THj4bYu629IqDe+FT+APihhlvp40WI8Py9/dl6OSzB35XaQ1X60WBfqgLFgu6vM3NgItzVjRjb72paJ6YdVkhMJZezMdJxKfxrLXJPTLQELhETB0mFtM4tMb2Mh43Jp3oWPLg9ZtFEcKlafAWuHpbRHRsjD58UawrB3M/uq8+T+jmlh9CSRdcjIlf+Oz1AANk2rU/voUE8jhzeRLOwLNEahAb1d5mBLklOK9351gzRmYJxPuggdR0EiRchE59JiSUAmGxky0bHyOfOoqdLkd5cIxmv8FTqY2BXvHJhe8DpWaxYt/rR9ckTiNyJ+XgkvpGMDbwpoJBh1ELmZ2Iy3mg/r2Gmw83eK4w+q+Wzz3Nhm8flVikL+DAwPnfV8dObzyC62LNTWos1Gb+lY7Aw== mads@DESKTOP-MADS"
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC+dpaPAPx8PiwvhUSKmVf1IGWpFcGGNP3suSaxgy+Cxd0EuqpSZekFbO9RliGHt/yE9/u1MeNjntvwfO95bEIYkq9n12jiGKTdG+Qt6SI7IesE/UrPK/yHe2QogjAaUU6I5rAigCIM9Q7FYosU0nsWWQMjdkbyQ0OtquT3Me5NXOWhFWXRZr/molgO3EQKI4ElSUDlWgp9fJLALGE+3Jp88coPnp+yfxI2UqMY6VyranYBaiIbKv27YlaqMkhh21DNYh+smQCoz4DuSNEZiqrmLFGZoqBEO5qptu+HfIRsLwtBAKYu5s2ucZmjlF54BoRwfzDvAMuvZs6o2AB+TDBw+OANUBH4SLiD/9oBOyvCeNzFQuUViElCBI+QGbdgtXUWc6gwmMYX0lxfbIgcnmkeQL0GL4floawXWg48hvKMhuEvW8WimTHiZBi8f1ZxYaTs57BLmdEynvOSwi2ODhGMjT1au11bo5O2s9AtfQfgl57br7FSgsCzBMstcNsS3S/NcngYA5VXVwPBR1KyJVFicxcGbHRf0fbfdI1GQWgAV2fbxGmDDrqW7IH6w4SAR+6bYqNOEv51ijVvNXU9cBJQ5qlH7hj7TJpEWn5UR7LdTm96lCsaa5AICOlfkXppiOq8qRACkd1TqcT9Dq30fzuFND3Xghg8cuZ9P6zv700uyQ== mads@laptop-mads"
+	"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC5bU6DBgeyhx5r6Dvx+EL65jatr8zdDaUiDlCMIFvSdvPET6ek236E/ASMagjd4J2d1VHJ8YNEgxaaTDiXKBS4LhtZh3kW3pOIVaL/Uggv9ONX+PKcMA0vJV1P3+JFEc9GZoArN17XXmFdTcPrvUVWJ1wlcWogu7nmIOxsvU87eL5mBhu38aOlJqYjWoXUVtUZw00JY//CBrLNLPl87BG3P4vYWuA0FF8gWfp8r0DPDNQHoXRRhuWRaplfaEB4fDP+FfZtNJw+9oETToXo0MoC8nEiH8KxWWKyBosYU2+UXa5M8Vh44GoqlGFRKW8XaxR0BQmiKUMPVziBa8Xr0GXxagW3eKsmSy4c9qNb38iCrrJgHZ2oL1n56kf4AUTnWQsioQHhFj+tnKM4msmzsfd/XQr/WFiKbgoG+4rv5erEH/5bpoXJjpW5u7drpcjBkwEuFn/u3W3aCdNlYpjp6LJxOuZb5bM9DMM8KFoCNVUg/rvc2n2RQi8HkH7vvAs9WuNg6+riWPy8irEZUa0MT80xonaVA+zB51AWNeqotBb0k1kFfyvmg9lgQiVkqMc/rnKMy4s6H8iXNap8zpSfWqowDEQnzTipf+SWV46u/1JkyL653ohraFSaf13QP52aZtalfGFCrM/g0oYMVhNQ6SkiRBogOxWj2klEpsO6x7xe1Q== u0_a107@localhost"
       ];
     };
   };
@@ -83,14 +83,6 @@
       };
     };
   };
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
 
   # Wireguard
 
@@ -173,7 +165,7 @@
   services.dnscrypt-proxy2 = {
     enable = true;
     settings = {
-      listen_addresses = [ "127.0.0.1:53" ];
+      listen_addresses = [ "127.0.0.1:53" "172.17.0.1:53" ];
       server_names = [
         "uncensoreddns-ipv4"
         "uncensoreddns-dk-ipv4"
@@ -226,20 +218,20 @@
       };
     };
 
-    virtualHosts."cocalc.madsmogensen.dk" =  {
-      enableACME = true;
-      forceSSL = true;
-      basicAuthFile = "/mnt/data/cocalc-proxy/htpasswd";
-      locations."/" = {
-        proxyPass = "https://localhost:9090/";
-        proxyWebsockets = true;
-        extraConfig =
-          "proxy_set_header Host $host;" +
-          "proxy_ssl_server_name on;" +
-          "proxy_pass_header Authorization;"
-          ;
-      };
-    };
+#    virtualHosts."cocalc.madsmogensen.dk" =  {
+#      enableACME = true;
+#      forceSSL = true;
+#      basicAuthFile = "/mnt/data/cocalc-proxy/htpasswd";
+#      locations."/" = {
+#        proxyPass = "https://localhost:9090/";
+#        proxyWebsockets = true;
+#        extraConfig =
+#          "proxy_set_header Host $host;" +
+#          "proxy_ssl_server_name on;" +
+#          "proxy_pass_header Authorization;"
+#          ;
+#      };
+#    };
 
     virtualHosts."file.madsmogensen.dk" = {
       enableACME = true;
@@ -276,44 +268,46 @@
           ;
       };
 
-      locations."/pihole" = {
+      locations."/admin" = {
         proxyPass = "http://127.0.0.1:9091/admin";
         extraConfig =
           "proxy_set_header Host $host;" +
-          "proxy_set_header X-Script-Name /pihole;" +
+          "proxy_set_header X-Script-Name /admin;" +
           "proxy_set_header X-Real-IP $remote_addr;" +
-          "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;"
+          "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;" +
+	  "proxy_hide_header X-Frame-Options;" +
+          "proxy_set_header X-Frame-Options \"SAMEORIGIN\";"
           ;
       };
     };
   };
 
-  virtualisation.oci-containers.backend = "podman";
-  #virtualisation.docker.autoPrune.enable = true;
-  virtualisation.oci-containers.containers.cocalc = {
-    image = "sagemathinc/cocalc:1edac8a13874";
-    volumes = [
-      "/mnt/data/cocalc:/projects"
-    ];
-    ports = [
-      "9090:443/udp"
-      "9090:443/tcp"
-    ];
-  };
+  virtualisation.oci-containers.backend = "docker";
+  virtualisation.docker.autoPrune.enable = true;
+#  virtualisation.oci-containers.containers.cocalc = {
+#    image = "sagemathinc/cocalc:1edac8a13874";
+#    volumes = [
+#      "/mnt/data/cocalc:/projects"
+#    ];
+#    ports = [
+#      "9090:443/udp"
+#      "9090:443/tcp"
+#    ];
+#  };
 
-  # Wait for the container to be in the podman ps output and then install the packages texlive-full and python-pygments
-  systemd.services."podman-cocalc".postStart = ''
-    while ! podman ps | grep cocalc; do
-      sleep 10s
-      echo "Waiting on container";
-    done
-
-    podman exec cocalc apt-get install -y texlive-full
-    podman exec cocalc apt-get install -y python-pygments
-  '';
+  # Wait for the container to be in the docker ps output and then install the packages texlive-full and python-pygments
+#  systemd.services."docker-cocalc".postStart = ''
+#    while ! docker ps | grep cocalc; do
+#      sleep 10s
+#      echo "Waiting on container";
+#    done
+#
+#    docker exec cocalc apt-get install -y texlive-full
+#    docker exec cocalc apt-get install -y python-pygments
+#  '';
 
     virtualisation.oci-containers.containers.pihole = {
-    image = "pihole/pihole:2022.09.4";
+    image = "pihole/pihole:2022.10";
     ports = [
       "5353:53/udp"
       "5353:53/tcp"
@@ -324,87 +318,86 @@
       WEB_PORT = "80";
       WEBPASSWORD = "toor";
       #VIRTUAL_HOST = "192.168.1.114";
-      PIHOLE_DNS_ = "host.docker.internal";
+      PIHOLE_DNS_ = "172.17.0.1";
       REV_SERVER = "true";
       REV_SERVER_DOMAIN = "router.lan";
       REV_SERVER_TARGET = "192.168.1.1";
       REV_SERVER_CIDR = "192.168.1.0/16";
-      DNSMASQ_LISTENING = "local";
+      DNSMASQ_LISTENING = "all";
     };
     extraOptions = [
       "--add-host=host.docker.internal:host-gateway"
     ];
   };
 
-  systemd.services."podman-pihole".postStart = ''
-    while ! podman ps | grep pihole; do
+  systemd.services."docker-pihole".postStart = ''
+    while ! docker ps | grep pihole; do
       sleep 10s
       echo "Waiting on container"
     done
     sleep 30s
 
-    podman exec pihole pihole -a addcustomdns 192.168.1.150 server-mads.lan false
+    docker exec pihole pihole -a addcustomdns 192.168.1.150 server-mads.lan false
 
-    podman exec pihole pihole -a adlist add "https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt"
-    podman exec pihole pihole -a adlist add "https://adaway.org/hosts.txt"
-    podman exec pihole pihole -a adlist add "https://v.firebog.net/hosts/AdguardDNS.txt"
-    podman exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Admiral.txt"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt"
-    podman exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Easylist.txt"
-    podman exec pihole pihole -a adlist add "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/UncheckyAds/hosts"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/bigdargon/hostsVN/master/hosts"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts"
-    podman exec pihole pihole -a adlist add "https://v.firebog.net/hosts/static/w3kbl.txt"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt"
-    podman exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Shalla-mal.txt"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/Spam404/lists/master/main-blacklist.txt"
-    podman exec pihole pihole -a adlist add "https://someonewhocares.org/hosts/zero/hosts"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/HorusTeknoloji/TR-PhishingList/master/url-lists.txt"
-    podman exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Easyprivacy.txt"
-    podman exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Prigent-Ads.txt"
-    podman exec pihole pihole -a adlist add "https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-blocklist.txt"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.2o7Net/hosts"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt"
-    podman exec pihole pihole -a adlist add "https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt"
-    podman exec pihole pihole -a adlist add "https://hostfiles.frogeye.fr/multiparty-trackers-hosts.txt"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/android-tracking.txt"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV.txt"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/AmazonFireTV.txt"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/RooneyMcNibNug/pihole-stuff/master/SNAFU.txt"
-    podman exec pihole pihole -a adlist add "https://www.github.developerdan.com/hosts/lists/ads-and-tracking-extended.txt"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareHosts.txt"
-    podman exec pihole pihole -a adlist add "https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt"
-    podman exec pihole pihole -a adlist add "https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
-    podman exec pihole pihole -a adlist add "https://phishing.army/download/phishing_army_blocklist_extended.txt"
-    podman exec pihole pihole -a adlist add "https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Risk/hosts"
-    podman exec pihole pihole -a adlist add "https://urlhaus.abuse.ch/downloads/hostfile/"
-    podman exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Prigent-Malware.txt"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling-porn/hosts"
-    podman exec pihole pihole -a adlist add "https://raw.githubusercontent.com/chadmayfield/my-pihole-blocklists/master/lists/pi_blocklist_porn_all.list"
-    podman exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Prigent-Crypto.txt"
-    podman exec pihole pihole -a adlist add "https://zerodot1.gitlab.io/CoinBlockerLists/hosts_browser"
-
-
-    podman exec pihole pihole -b "dubaid.co.uk"
-    podman exec pihole pihole --regex '\.asia$'
-    podman exec pihole pihole --regex '\.cn$'
-    podman exec pihole pihole --regex '(\.|^)huawei\.com$'
-    podman exec pihole pihole --regex '(\.|^)open-telekom-cloud\.com$'
-    podman exec pihole pihole --regex 'dbank'
-    podman exec pihole pihole --regex 'hicloud'
-
-    podman exec pihole pihole -w "connectivitycheck.cbg-app.huawei.com"
-    podman exec pihole pihole -w "connectivitycheck.platform.hicloud.com"
-    podman exec pihole pihole -w "fonts.gstatic.com"
-    podman exec pihole pihole -w "4chan.org"
-    podman exec pihole pihole -w "boards.4channel.org"
-    podman exec pihole pihole -w "boards.4chan.org"
+    docker exec pihole pihole -a adlist add "https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt"
+    docker exec pihole pihole -a adlist add "https://adaway.org/hosts.txt"
+    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/AdguardDNS.txt"
+    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Admiral.txt"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt"
+    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Easylist.txt"
+    docker exec pihole pihole -a adlist add "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/UncheckyAds/hosts"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/bigdargon/hostsVN/master/hosts"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts"
+    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/static/w3kbl.txt"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/Spam404/lists/master/main-blacklist.txt"
+    docker exec pihole pihole -a adlist add "https://someonewhocares.org/hosts/zero/hosts"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/HorusTeknoloji/TR-PhishingList/master/url-lists.txt"
+    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Easyprivacy.txt"
+    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Prigent-Ads.txt"
+    docker exec pihole pihole -a adlist add "https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-blocklist.txt"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.2o7Net/hosts"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt"
+    docker exec pihole pihole -a adlist add "https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt"
+    docker exec pihole pihole -a adlist add "https://hostfiles.frogeye.fr/multiparty-trackers-hosts.txt"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/android-tracking.txt"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV.txt"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/AmazonFireTV.txt"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/RooneyMcNibNug/pihole-stuff/master/SNAFU.txt"
+    docker exec pihole pihole -a adlist add "https://www.github.developerdan.com/hosts/lists/ads-and-tracking-extended.txt"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareHosts.txt"
+    docker exec pihole pihole -a adlist add "https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt"
+    docker exec pihole pihole -a adlist add "https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
+    docker exec pihole pihole -a adlist add "https://phishing.army/download/phishing_army_blocklist_extended.txt"
+    docker exec pihole pihole -a adlist add "https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Risk/hosts"
+    docker exec pihole pihole -a adlist add "https://urlhaus.abuse.ch/downloads/hostfile/"
+    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Prigent-Malware.txt"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling-porn/hosts"
+    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/chadmayfield/my-pihole-blocklists/master/lists/pi_blocklist_porn_all.list"
+    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Prigent-Crypto.txt"
+    docker exec pihole pihole -a adlist add "https://zerodot1.gitlab.io/CoinBlockerLists/hosts_browser"
 
 
-    podman exec pihole pihole -g
+    docker exec pihole pihole -b "dubaid.co.uk"
+    docker exec pihole pihole --regex '\.asia$'
+    docker exec pihole pihole --regex '\.cn$'
+    docker exec pihole pihole --regex '(\.|^)huawei\.com$'
+    docker exec pihole pihole --regex '(\.|^)open-telekom-cloud\.com$'
+    docker exec pihole pihole --regex 'dbank'
+    docker exec pihole pihole --regex 'hicloud'
+
+    docker exec pihole pihole -w "connectivitycheck.cbg-app.huawei.com"
+    docker exec pihole pihole -w "connectivitycheck.platform.hicloud.com"
+    docker exec pihole pihole -w "fonts.gstatic.com"
+    docker exec pihole pihole -w "4chan.org"
+    docker exec pihole pihole -w "boards.4channel.org"
+    docker exec pihole pihole -w "boards.4chan.org"
+
+
+    docker exec pihole pihole -g
   '';
 
 
@@ -428,6 +421,7 @@
         fi
         popd
       done
+      exit 0
     '';
   };
 
@@ -443,8 +437,8 @@
 
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
-  networking.firewall.allowedUDPPorts = [ 80 443 51820 ];
+  networking.firewall.allowedTCPPorts = [ 53 80 443 5353 ];
+  networking.firewall.allowedUDPPorts = [ 53 80 443 5353 51820 ];
   #networking.firewall.checkReversePath = "loose";
 
   system.autoUpgrade = {
