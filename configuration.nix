@@ -128,6 +128,9 @@
 
   # List services that you want to enable:
 
+  # Trim ssds weekly
+  services.fstrim.enable = true;
+
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
