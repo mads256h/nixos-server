@@ -131,6 +131,16 @@
   # Trim ssds weekly
   services.fstrim.enable = true;
 
+  # Enable fail2ban
+  services.fail2ban = {
+    enable = true;
+    ignoreIP = [
+      "127.0.0.0/8" 
+      "172.16.0.0/12" 
+      "192.168.0.0/16"
+    ];
+  };
+
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
