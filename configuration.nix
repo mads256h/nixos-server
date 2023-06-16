@@ -11,6 +11,7 @@
       ./hardware-configuration.nix
       <nixpkgs/nixos/modules/profiles/minimal.nix>
       <nixpkgs/nixos/modules/profiles/hardened.nix>
+      ./minecraft.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -22,7 +23,7 @@
   security.lockKernelModules = false;
   security.protectKernelImage = false;
 
-  environment.noXlibs = true;
+  environment.noXlibs = false;
 
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
@@ -413,6 +414,15 @@
     docker exec pihole pihole -g
   '';
 
+  services.minecraft-ftb-server = {
+    enable = true;
+    dataDir = "/mnt/data/minecraft/FeedTheBeast";
+    openFirewall = true;
+    serverExecutable = "/mnt/data/minecraft/FeedTheBeast/FTBServer-1.7.10-1614.jar";
+    jvmOpts = "-server -Xms512M -Xmx2048M -XX:PermSize=256M -XX:+UseParNewGC -XX:+CMSIncrementalPacing -XX:+CMSClassUnloadingEnabled -XX:ParallelGCThreads=2 -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm";
+    javaPackage = pkgs.jdk8;
+  };
+
 
   # Automatically download new youtube videos daily
   systemd.services."update-yt" = {
@@ -450,8 +460,8 @@
 
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 53 80 443 5353 ];
-  networking.firewall.allowedUDPPorts = [ 53 80 443 5353 51820 ];
+  networking.firewall.allowedTCPPorts = [ 53 80 443 5353 25565 ];
+  networking.firewall.allowedUDPPorts = [ 53 80 443 5353 25565 51820 ];
   #networking.firewall.checkReversePath = "loose";
 
   system.autoUpgrade = {
