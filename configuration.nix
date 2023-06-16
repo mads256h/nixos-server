@@ -423,6 +423,16 @@
     javaPackage = pkgs.jdk8;
   };
 
+  services.davmail = {
+    enable = true;
+    url = "https://outlook.office365.com/EWS/Exchange.asmx";
+    config.log4j = {
+      logger.davmail = "DEBUG";
+      rootLogger = "DEBUG";
+    };
+  };
+
+
 
   # Automatically download new youtube videos daily
   systemd.services."update-yt" = {
