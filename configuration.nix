@@ -426,9 +426,16 @@
   services.davmail = {
     enable = true;
     url = "https://outlook.office365.com/EWS/Exchange.asmx";
-    config.log4j = {
-      logger.davmail = "DEBUG";
-      rootLogger = "DEBUG";
+    config = {
+      davmail.allowRemote = true;
+      davmail.ssl.keystoreType = "PKCS12";
+      davmail.ssl.keyPass = "davmail";
+      davmail.ssl.keystoreFile = "/mnt/data/davmail/davmail.p12";
+      davmail.ssl.keystorePass = "davmail";
+      log4j = {
+        logger.davmail = "DEBUG";
+        rootLogger = "DEBUG";
+      };
     };
   };
 
