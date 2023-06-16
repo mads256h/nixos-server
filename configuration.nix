@@ -425,8 +425,9 @@
 
   services.davmail = {
     enable = true;
-    url = "https://outlook.office365.com/EWS/Exchange.asmx";
+    url = "https://mail.aau.dk/EWS/Exchange.asmx";
     config = {
+      davmail.mode = "EWS";
       davmail.allowRemote = true;
       davmail.ssl.keystoreType = "PKCS12";
       davmail.ssl.keyPass = "davmail";
