@@ -435,10 +435,6 @@
       davmail.ssl.keyPass = "davmail";
       davmail.ssl.keystoreFile = "/mnt/data/davmail/davmail.p12";
       davmail.ssl.keystorePass = "davmail";
-      log4j = {
-        logger.davmail = "DEBUG";
-        rootLogger = "DEBUG";
-      };
     };
   };
 
