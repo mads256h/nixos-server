@@ -355,6 +355,7 @@ in {
     javaPackage = pkgs.jdk8;
   };
 
+  # Exchange to imap / smtp gateway
   services.davmail = {
     enable = true;
     url = "https://mail.aau.dk/EWS/Exchange.asmx";
@@ -435,8 +436,8 @@ in {
 
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 53 80 443 1025 1143 5353 ];
-  networking.firewall.allowedUDPPorts = [ 53 80 443 1025 1143 5353 51820 ];
+  networking.firewall.allowedTCPPorts = [ 53 80 443 5353 config.services.davmail.config.davmail.imapPort config.services.davmail.config.davmail.smtpPort ];
+  networking.firewall.allowedUDPPorts = [ 53 80 443 5353 51820 ];
   #networking.firewall.checkReversePath = "loose";
 
   system.autoUpgrade = {
