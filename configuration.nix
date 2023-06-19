@@ -11,6 +11,12 @@ let
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC+dpaPAPx8PiwvhUSKmVf1IGWpFcGGNP3suSaxgy+Cxd0EuqpSZekFbO9RliGHt/yE9/u1MeNjntvwfO95bEIYkq9n12jiGKTdG+Qt6SI7IesE/UrPK/yHe2QogjAaUU6I5rAigCIM9Q7FYosU0nsWWQMjdkbyQ0OtquT3Me5NXOWhFWXRZr/molgO3EQKI4ElSUDlWgp9fJLALGE+3Jp88coPnp+yfxI2UqMY6VyranYBaiIbKv27YlaqMkhh21DNYh+smQCoz4DuSNEZiqrmLFGZoqBEO5qptu+HfIRsLwtBAKYu5s2ucZmjlF54BoRwfzDvAMuvZs6o2AB+TDBw+OANUBH4SLiD/9oBOyvCeNzFQuUViElCBI+QGbdgtXUWc6gwmMYX0lxfbIgcnmkeQL0GL4floawXWg48hvKMhuEvW8WimTHiZBi8f1ZxYaTs57BLmdEynvOSwi2ODhGMjT1au11bo5O2s9AtfQfgl57br7FSgsCzBMstcNsS3S/NcngYA5VXVwPBR1KyJVFicxcGbHRf0fbfdI1GQWgAV2fbxGmDDrqW7IH6w4SAR+6bYqNOEv51ijVvNXU9cBJQ5qlH7hj7TJpEWn5UR7LdTm96lCsaa5AICOlfkXppiOq8qRACkd1TqcT9Dq30fzuFND3Xghg8cuZ9P6zv700uyQ== mads@laptop-mads"
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC5bU6DBgeyhx5r6Dvx+EL65jatr8zdDaUiDlCMIFvSdvPET6ek236E/ASMagjd4J2d1VHJ8YNEgxaaTDiXKBS4LhtZh3kW3pOIVaL/Uggv9ONX+PKcMA0vJV1P3+JFEc9GZoArN17XXmFdTcPrvUVWJ1wlcWogu7nmIOxsvU87eL5mBhu38aOlJqYjWoXUVtUZw00JY//CBrLNLPl87BG3P4vYWuA0FF8gWfp8r0DPDNQHoXRRhuWRaplfaEB4fDP+FfZtNJw+9oETToXo0MoC8nEiH8KxWWKyBosYU2+UXa5M8Vh44GoqlGFRKW8XaxR0BQmiKUMPVziBa8Xr0GXxagW3eKsmSy4c9qNb38iCrrJgHZ2oL1n56kf4AUTnWQsioQHhFj+tnKM4msmzsfd/XQr/WFiKbgoG+4rv5erEH/5bpoXJjpW5u7drpcjBkwEuFn/u3W3aCdNlYpjp6LJxOuZb5bM9DMM8KFoCNVUg/rvc2n2RQi8HkH7vvAs9WuNg6+riWPy8irEZUa0MT80xonaVA+zB51AWNeqotBb0k1kFfyvmg9lgQiVkqMc/rnKMy4s6H8iXNap8zpSfWqowDEQnzTipf+SWV46u/1JkyL653ohraFSaf13QP52aZtalfGFCrM/g0oYMVhNQ6SkiRBogOxWj2klEpsO6x7xe1Q== u0_a107@localhost"
         ];
+
+  pihole = {
+    version = "2023.05.2";
+    dnsPort = 5353;
+    httpPort = 9091;
+  };
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -236,7 +242,7 @@ in {
       };
 
       locations."/admin" = {
-        proxyPass = "http://127.0.0.1:9091/admin";
+        proxyPass = "http://127.0.0.1:${toString pihole.httpPort}/admin";
         extraConfig =
           "proxy_set_header Host $host;" +
           "proxy_set_header X-Script-Name /admin;" +
@@ -253,11 +259,11 @@ in {
   virtualisation.docker.autoPrune.enable = true;
 
   virtualisation.oci-containers.containers.pihole = {
-    image = "pihole/pihole:2023.05.2";
+    image = "pihole/pihole:${pihole.version}";
     ports = [
-      "5353:53/udp"
-      "5353:53/tcp"
-      "9091:80/tcp"
+      "${toString pihole.dnsPort}:53/udp"
+      "${toString pihole.dnsPort}:53/tcp"
+      "${toString pihole.httpPort}:80/tcp"
     ];
     environment = {
       TZ = config.time.timeZone;
@@ -436,8 +442,8 @@ in {
 
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 53 80 443 5353 config.services.davmail.config.davmail.imapPort config.services.davmail.config.davmail.smtpPort ];
-  networking.firewall.allowedUDPPorts = [ 53 80 443 5353 51820 ];
+  networking.firewall.allowedTCPPorts = [ 53 80 443 pihole.dnsPort config.services.davmail.config.davmail.imapPort config.services.davmail.config.davmail.smtpPort ];
+  networking.firewall.allowedUDPPorts = [ 53 80 443 pihole.dnsPort 51820 ];
   #networking.firewall.checkReversePath = "loose";
 
   system.autoUpgrade = {
