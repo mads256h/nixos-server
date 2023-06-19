@@ -169,15 +169,6 @@
     };
   };
 
-  services.searx = {
-    enable = true;
-    settings = {
-      search.autocomplete = "google";
-      server.secret_key = "@SEARX_SECRET_KEY@";
-    };
-    environmentFile = "/mnt/data/searx/environment";
-  };
-
   services.dnscrypt-proxy2 = {
     enable = true;
     settings = {
@@ -219,19 +210,6 @@
           "proxy_pass_header Authorization;"
           ;
       };
-
-      locations."/searx" = {
-        basicAuthFile = "/mnt/data/searx/htpasswd";
-        proxyPass = "http://127.0.0.1:8888";
-        extraConfig =
-          "proxy_set_header Host $host;" +
-          "proxy_set_header Connection       $http_connection;" +
-          "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;" +
-          "proxy_set_header X-Scheme $scheme;" +
-          "proxy_set_header X-Script-Name /searx;" +
-          "proxy_buffering off;"
-          ;
-      };
     };
 
 #    virtualHosts."cocalc.madsmogensen.dk" =  {
@@ -269,18 +247,6 @@
           "proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;" +
           "proxy_set_header  Host $host;" +
           "proxy_pass_header Authorization;"
-          ;
-      };
-
-      locations."/searx" = {
-        proxyPass = "http://127.0.0.1:8888";
-        extraConfig =
-          "proxy_set_header Host $host;" +
-          "proxy_set_header Connection       $http_connection;" +
-          "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;" +
-          "proxy_set_header X-Scheme $scheme;" +
-          "proxy_set_header X-Script-Name /searx;" +
-          "proxy_buffering off;"
           ;
       };
 
