@@ -101,14 +101,12 @@ in {
     # This allows the wireguard server to route your traffic to the internet and hence be like a VPN
     # For this to work you have to set the dnsserver IP of your router (or dnsserver of choice) in your clients
     postSetup = ''
-      ${pkgs.iptables}/bin/iptables -t mangle -A PREROUTING -i wg0 -j MARK --set-mark 0x30
-      ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING ! -o wg0 -m mark --mark 0x30 -j MASQUERADE
+      ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o ${config.networking.nat.externalInterface} -j MASQUERADE
     '';
 
     # This undoes the above command
     postShutdown = ''
-      ${pkgs.iptables}/bin/iptables -t mangle -D PREROUTING -i wg0 -j MARK --set-mark 0x30
-      ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING ! -o wg0 -m mark --mark 0x30 -j MASQUERADE
+      ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o ${config.networking.nat.externalInterface} -j MASQUERADE
     '';
 
     # Path to the private key file.
@@ -120,7 +118,8 @@ in {
 
     peers = [
       { # Android
-        publicKey = "tOKfgI+4V9iqe2rTPnT/Tjq0+us/H+AV8poHOxmcZEQ=";
+        publicKey = "bysMU83dZ9h/OsGHIKzhcQmf5leI8KjeqDLVI0Du8gA=";
+        presharedKeyFile = "/mnt/data/wireguard/android-preshared-key";
         allowedIPs = [ "10.100.0.2/32" ];
       }
     ];
@@ -417,8 +416,7 @@ in {
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 53 80 443 config.services.pihole.dnsPort config.services.davmail.config.davmail.imapPort config.services.davmail.config.davmail.smtpPort ];
-  networking.firewall.allowedUDPPorts = [ 53 80 443 config.services.pihole.dnsPort 51820 ];
-  #networking.firewall.checkReversePath = "loose";
+  networking.firewall.allowedUDPPorts = [ 53 80 443 config.services.pihole.dnsPort config.networking.wireguard.interfaces."wg0".listenPort ];
 
   system.autoUpgrade = {
     enable = true;
