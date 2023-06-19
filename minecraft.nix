@@ -137,7 +137,7 @@ in {
         RestrictRealtime = true;
         RestrictSUIDSGID = true;
         SystemCallArchitectures = "native";
-        SystemCallFilter = "@system-service ~@privileged";
+        SystemCallFilter = [ "@system-service" "~@privileged" ];
         SystemCallErrorNumber = "EPERM";
         UMask = "0077";
       };
