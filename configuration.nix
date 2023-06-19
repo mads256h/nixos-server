@@ -471,8 +471,8 @@
 
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 53 80 443 1025 1143 5353 25565 ];
-  networking.firewall.allowedUDPPorts = [ 53 80 443 1025 1143 5353 25565 51820 ];
+  networking.firewall.allowedTCPPorts = [ 53 80 443 1025 1143 5353 ];
+  networking.firewall.allowedUDPPorts = [ 53 80 443 1025 1143 5353 51820 ];
   #networking.firewall.checkReversePath = "loose";
 
   system.autoUpgrade = {
