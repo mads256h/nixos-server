@@ -212,21 +212,6 @@ in {
       };
     };
 
-#    virtualHosts."cocalc.madsmogensen.dk" =  {
-#      enableACME = true;
-#      forceSSL = true;
-#      basicAuthFile = "/mnt/data/cocalc-proxy/htpasswd";
-#      locations."/" = {
-#        proxyPass = "https://localhost:9090/";
-#        proxyWebsockets = true;
-#        extraConfig =
-#          "proxy_set_header Host $host;" +
-#          "proxy_ssl_server_name on;" +
-#          "proxy_pass_header Authorization;"
-#          ;
-#      };
-#    };
-
     virtualHosts."file.madsmogensen.dk" = {
       enableACME = true;
       forceSSL = true;
@@ -266,29 +251,8 @@ in {
 
   virtualisation.oci-containers.backend = "docker";
   virtualisation.docker.autoPrune.enable = true;
-#  virtualisation.oci-containers.containers.cocalc = {
-#    image = "sagemathinc/cocalc:1edac8a13874";
-#    volumes = [
-#      "/mnt/data/cocalc:/projects"
-#    ];
-#    ports = [
-#      "9090:443/udp"
-#      "9090:443/tcp"
-#    ];
-#  };
 
-  # Wait for the container to be in the docker ps output and then install the packages texlive-full and python-pygments
-#  systemd.services."docker-cocalc".postStart = ''
-#    while ! docker ps | grep cocalc; do
-#      sleep 10s
-#      echo "Waiting on container";
-#    done
-#
-#    docker exec cocalc apt-get install -y texlive-full
-#    docker exec cocalc apt-get install -y python-pygments
-#  '';
-
-    virtualisation.oci-containers.containers.pihole = {
+  virtualisation.oci-containers.containers.pihole = {
     image = "pihole/pihole:2023.05.2";
     ports = [
       "5353:53/udp"
