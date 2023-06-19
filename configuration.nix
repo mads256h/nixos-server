@@ -2,7 +2,6 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, lib, ... }:
 
 let
@@ -16,6 +15,70 @@ let
     version = "2023.05.2";
     dnsPort = 5353;
     httpPort = 9091;
+    customDnses = [
+      { ip = "192.168.0.150"; name = "server-mads.lan"; }
+    ];
+    adlists = [
+      "https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt"
+      "https://adaway.org/hosts.txt"
+      "https://v.firebog.net/hosts/AdguardDNS.txt"
+      "https://v.firebog.net/hosts/Admiral.txt"
+      "https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt"
+      "https://v.firebog.net/hosts/Easylist.txt"
+      "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext"
+      "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/UncheckyAds/hosts"
+      "https://raw.githubusercontent.com/bigdargon/hostsVN/master/hosts"
+      "https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts"
+      "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts"
+      "https://v.firebog.net/hosts/static/w3kbl.txt"
+      "https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt"
+      "https://raw.githubusercontent.com/Spam404/lists/master/main-blacklist.txt"
+      "https://someonewhocares.org/hosts/zero/hosts"
+      "https://raw.githubusercontent.com/HorusTeknoloji/TR-PhishingList/master/url-lists.txt"
+      "https://v.firebog.net/hosts/Easyprivacy.txt"
+      "https://v.firebog.net/hosts/Prigent-Ads.txt"
+      "https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-blocklist.txt"
+      "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.2o7Net/hosts"
+      "https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt"
+      "https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt"
+      "https://hostfiles.frogeye.fr/multiparty-trackers-hosts.txt"
+      "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/android-tracking.txt"
+      "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV.txt"
+      "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/AmazonFireTV.txt"
+      "https://raw.githubusercontent.com/RooneyMcNibNug/pihole-stuff/master/SNAFU.txt"
+      "https://www.github.developerdan.com/hosts/lists/ads-and-tracking-extended.txt"
+      "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareHosts.txt"
+      "https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt"
+      "https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
+      "https://phishing.army/download/phishing_army_blocklist_extended.txt"
+      "https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt"
+      "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Risk/hosts"
+      "https://urlhaus.abuse.ch/downloads/hostfile/"
+      "https://v.firebog.net/hosts/Prigent-Malware.txt"
+      "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling-porn/hosts"
+      "https://raw.githubusercontent.com/chadmayfield/my-pihole-blocklists/master/lists/pi_blocklist_porn_all.list"
+      "https://v.firebog.net/hosts/Prigent-Crypto.txt"
+      "https://zerodot1.gitlab.io/CoinBlockerLists/hosts_browser"
+    ];
+    regexes = [
+      "\\.asia$"
+      "\\.cn$"
+      "(\\.|^)huawei\\.com$"
+      "(\\.|^)open-telekom-cloud\\.com$"
+      "dbank"
+      "hicloud"
+    ];
+    blacklist = [
+      "dubaid.co.uk"
+    ];
+    whitelist = [
+      "connectivitycheck.cbg-app.huawei.com"
+      "connectivitycheck.platform.hicloud.com"
+      "fonts.gstatic.com"
+      "4chan.org"
+      "boards.4channel.org"
+      "boards.4chan.org"
+    ];
   };
 in {
   imports =
@@ -142,8 +205,8 @@ in {
   services.fail2ban = {
     enable = true;
     ignoreIP = [
-      "127.0.0.0/8" 
-      "172.16.0.0/12" 
+      "127.0.0.0/8"
+      "172.16.0.0/12"
       "192.168.0.0/16"
     ];
   };
@@ -289,66 +352,22 @@ in {
     done
     sleep 30s
 
-    docker exec pihole pihole -a addcustomdns 192.168.1.150 server-mads.lan false
+    # add custom dnses
+    ${builtins.foldl' (x: y: x + "docker exec pihole pihole -a addcustomdns \"" + y.ip + "\" \"" + y.name + "\" false\n") ""  pihole.customDnses}
 
-    docker exec pihole pihole -a adlist add "https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt"
-    docker exec pihole pihole -a adlist add "https://adaway.org/hosts.txt"
-    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/AdguardDNS.txt"
-    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Admiral.txt"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt"
-    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Easylist.txt"
-    docker exec pihole pihole -a adlist add "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/UncheckyAds/hosts"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/bigdargon/hostsVN/master/hosts"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts"
-    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/static/w3kbl.txt"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/Spam404/lists/master/main-blacklist.txt"
-    docker exec pihole pihole -a adlist add "https://someonewhocares.org/hosts/zero/hosts"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/HorusTeknoloji/TR-PhishingList/master/url-lists.txt"
-    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Easyprivacy.txt"
-    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Prigent-Ads.txt"
-    docker exec pihole pihole -a adlist add "https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-blocklist.txt"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.2o7Net/hosts"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt"
-    docker exec pihole pihole -a adlist add "https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt"
-    docker exec pihole pihole -a adlist add "https://hostfiles.frogeye.fr/multiparty-trackers-hosts.txt"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/android-tracking.txt"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV.txt"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/AmazonFireTV.txt"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/RooneyMcNibNug/pihole-stuff/master/SNAFU.txt"
-    docker exec pihole pihole -a adlist add "https://www.github.developerdan.com/hosts/lists/ads-and-tracking-extended.txt"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareHosts.txt"
-    docker exec pihole pihole -a adlist add "https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt"
-    docker exec pihole pihole -a adlist add "https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
-    docker exec pihole pihole -a adlist add "https://phishing.army/download/phishing_army_blocklist_extended.txt"
-    docker exec pihole pihole -a adlist add "https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Risk/hosts"
-    docker exec pihole pihole -a adlist add "https://urlhaus.abuse.ch/downloads/hostfile/"
-    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Prigent-Malware.txt"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling-porn/hosts"
-    docker exec pihole pihole -a adlist add "https://raw.githubusercontent.com/chadmayfield/my-pihole-blocklists/master/lists/pi_blocklist_porn_all.list"
-    docker exec pihole pihole -a adlist add "https://v.firebog.net/hosts/Prigent-Crypto.txt"
-    docker exec pihole pihole -a adlist add "https://zerodot1.gitlab.io/CoinBlockerLists/hosts_browser"
+    # Add adlists
+    ${builtins.foldl' (x: y: x + "docker exec pihole pihole -a adlist add \"" + y + "\"\n") "" pihole.adlists}
 
+    # Add regexes
+    ${builtins.foldl' (x: y: x + "docker exec pihole pihole --regex '" + y + "'\n") "" pihole.regexes}
 
-    docker exec pihole pihole -b "dubaid.co.uk"
-    docker exec pihole pihole --regex '\.asia$'
-    docker exec pihole pihole --regex '\.cn$'
-    docker exec pihole pihole --regex '(\.|^)huawei\.com$'
-    docker exec pihole pihole --regex '(\.|^)open-telekom-cloud\.com$'
-    docker exec pihole pihole --regex 'dbank'
-    docker exec pihole pihole --regex 'hicloud'
+    # Add blacklisted domains
+    ${builtins.foldl' (x: y: x + "docker exec pihole pihole -b \"" + y + "\"\n") "" pihole.blacklist}
 
-    docker exec pihole pihole -w "connectivitycheck.cbg-app.huawei.com"
-    docker exec pihole pihole -w "connectivitycheck.platform.hicloud.com"
-    docker exec pihole pihole -w "fonts.gstatic.com"
-    docker exec pihole pihole -w "4chan.org"
-    docker exec pihole pihole -w "boards.4channel.org"
-    docker exec pihole pihole -w "boards.4chan.org"
+    # Add whitelisted domains
+    ${builtins.foldl' (x: y: x + "docker exec pihole pihole -w \"" + y + "\"\n") "" pihole.whitelist}
 
-
+    # Apply changes
     docker exec pihole pihole -g
   '';
 
