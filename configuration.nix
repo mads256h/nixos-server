@@ -139,7 +139,23 @@ in {
       "172.16.0.0/12"
       "192.168.0.0/16"
     ];
+    jails = {
+      "nginx-spam" = ''
+        enabled  = true
+        filter   = nginx-spam
+        logpath  = /var/log/nginx/access.log
+        backend  = auto
+        maxretry = 3
+        findtime = 600
+      '';
+    };
   };
+
+  # fail2ban custom filters
+  environment.etc."fail2ban/filter.d/nginx-spam.conf".text = ''
+    [Definition]
+    failregex = <HOST>.*" (31|40|51|53|301).*$
+  '';
 
   # Enable the OpenSSH daemon.
   services.openssh = {
