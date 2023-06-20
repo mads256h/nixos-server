@@ -331,6 +331,7 @@ in {
     openFirewall = true;
     serverExecutable = "/mnt/data/minecraft/FeedTheBeast/FTBServer-1.7.10-1614.jar";
     jvmOpts = "-server -Xms512M -Xmx2048M -XX:PermSize=256M -XX:+UseParNewGC -XX:+CMSIncrementalPacing -XX:+CMSClassUnloadingEnabled -XX:ParallelGCThreads=2 -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm -Dfml.queryResult=confirm";
+    lowCpuWhenEmpty = true;
     javaPackage = pkgs.jdk8;
   };
 
