@@ -83,7 +83,7 @@ in {
   config = lib.mkIf cfg.enable {
     users.users.minecraft = {
       description     = "Minecraft server service user";
-      home            = cfg.dataDir;
+      #home            = cfg.dataDir;
       createHome      = true;
       isSystemUser    = true;
       group           = "minecraft";
@@ -169,6 +169,8 @@ in {
 
         login_count=0
         cpulimit_pid=0
+
+	trap 'unlimit_cpu' EXIT HUP INT QUIT PIPE TERM
 
         limit_cpu() {
             echo "Limiting CPU time"

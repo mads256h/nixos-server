@@ -44,6 +44,8 @@ in {
     keyMap = "dk";
   };
 
+  nixpkgs.config.allowUnfree = true;
+
 
   users = {
     mutableUsers = false;
@@ -118,8 +120,8 @@ in {
 
     peers = [
       { # Android
-        publicKey = "bysMU83dZ9h/OsGHIKzhcQmf5leI8KjeqDLVI0Du8gA=";
-        presharedKeyFile = "/mnt/data/wireguard/android-preshared-key";
+        publicKey = "mFSLE2wdyrjQvsk3Y9uw2gu4EfV4yoenuQhMPSgHiWM=";
+        #presharedKeyFile = "/mnt/data/wireguard/android-preshared-key";
         allowedIPs = [ "10.100.0.2/32" ];
       }
     ];
@@ -139,16 +141,16 @@ in {
       "172.16.0.0/12"
       "192.168.0.0/16"
     ];
-    jails = {
-      "nginx-spam" = ''
-        enabled  = true
-        filter   = nginx-spam
-        logpath  = /var/log/nginx/access.log
-        backend  = auto
-        maxretry = 3
-        findtime = 600
-      '';
-    };
+    #jails = {
+    #  "nginx-spam" = ''
+    #    enabled  = true
+    #    filter   = nginx-spam
+    #    logpath  = /var/log/nginx/access.log
+    #    backend  = auto
+    #    maxretry = 3
+    #    findtime = 600
+    #  '';
+    #};
   };
 
   # fail2ban custom filters
@@ -351,6 +353,13 @@ in {
     javaPackage = pkgs.jdk8;
   };
 
+  services.minecraft-server = {
+    enable = true;
+    eula = true;
+    dataDir = "/mnt/data/minecraft-aau";
+    openFirewall = true;
+  };
+
   # Exchange to imap / smtp gateway
   services.davmail = {
     enable = true;
@@ -432,8 +441,8 @@ in {
 
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 53 80 443 config.services.pihole.dnsPort config.services.davmail.config.davmail.imapPort config.services.davmail.config.davmail.smtpPort ];
-  networking.firewall.allowedUDPPorts = [ 53 80 443 config.services.pihole.dnsPort config.networking.wireguard.interfaces."wg0".listenPort ];
+  networking.firewall.allowedTCPPorts = [ 53 80 443 config.services.pihole.dnsPort config.services.davmail.config.davmail.imapPort config.services.davmail.config.davmail.smtpPort 25566 ];
+  networking.firewall.allowedUDPPorts = [ 53 80 443 config.services.pihole.dnsPort config.networking.wireguard.interfaces."wg0".listenPort 25566 ];
 
   system.autoUpgrade = {
     enable = true;
