@@ -134,7 +134,7 @@ in {
 
   # Enable fail2ban
   services.fail2ban = {
-    enable = true;
+    #enable = true;
     ignoreIP = [
       "127.0.0.0/8"
       "172.16.0.0/12"
@@ -238,7 +238,7 @@ in {
   };
 
   services.minecraft-ftb-server = {
-    enable = true;
+    enable = false;
     dataDir = "/mnt/data/minecraft/FeedTheBeast";
     openFirewall = true;
     serverExecutable = "/mnt/data/minecraft/FeedTheBeast/FTBServer-1.7.10-1614.jar";
@@ -248,7 +248,7 @@ in {
   };
 
   services.minecraft-server = {
-    enable = true;
+    enable = false;
     eula = true;
     dataDir = "/mnt/data/minecraft-aau";
     openFirewall = true;
@@ -267,37 +267,6 @@ in {
       davmail.ssl.keystorePass = "davmail";
     };
   };
-
-  # Hardening davmail
-  systemd.services.davmail.serviceConfig = {
-    CapabilityBoundingSet = [ "" ];
-    DeviceAllow = [ "" ];
-    LockPersonality = true;
-    NoNewPrivileges = true;
-    PrivateDevices = true;
-    PrivateTmp = true;
-    PrivateUsers = true;
-    ProtectClock = true;
-    ProtectControlGroups = true;
-    ProtectHome = true;
-    ProtectSystem = "strict";
-    ProtectHostname = true;
-    ProtectKernelLogs = true;
-    ProtectKernelModules = true;
-    ProtectKernelTunables = true;
-    ProtectProc = "invisible";
-    RemoveIPC = true;
-    RestrictAddressFamilies = [ "AF_INET" "AF_INET6" ];
-    RestrictNamespaces = true;
-    RestrictRealtime = true;
-    RestrictSUIDSGID = true;
-    SystemCallArchitectures = "native";
-    SystemCallFilter = [ "@system-service" "~@privileged" ];
-    SystemCallErrorNumber = "EPERM";
-    UMask = "0077";
-  };
-
-
 
   # Automatically download new youtube videos daily
   systemd.services."update-yt" = {
@@ -363,7 +332,7 @@ in {
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 
 }
 
