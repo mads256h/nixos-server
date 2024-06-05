@@ -17,6 +17,11 @@ in {
       <nixpkgs/nixos/modules/profiles/minimal.nix>
       <nixpkgs/nixos/modules/profiles/hardened.nix>
       ./minecraft.nix
+      ./wireguard.nix
+      ./monitoring.nix
+      ./radicale.nix
+      ./davmail.nix
+      ./your_spotify.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -86,77 +91,11 @@ in {
     };
   };
 
-  # Wireguard
-
-  networking.nat.enable = true;
-  networking.nat.externalInterface = "enp1s0";
-  networking.nat.internalInterfaces = [ "wg0" ];
-
-  networking.wireguard.interfaces."wg0" = {
-    # Determines the IP address and subnet of the server's end of the tunnel interface.
-    ips = [ "10.100.0.1/24" ];
-
-    # The port that WireGuard listens to. Must be accessible by the client.
-    listenPort = 51820;
-
-    # This allows the wireguard server to route your traffic to the internet and hence be like a VPN
-    # For this to work you have to set the dnsserver IP of your router (or dnsserver of choice) in your clients
-    postSetup = ''
-      ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o ${config.networking.nat.externalInterface} -j MASQUERADE
-    '';
-
-    # This undoes the above command
-    postShutdown = ''
-      ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o ${config.networking.nat.externalInterface} -j MASQUERADE
-    '';
-
-    # Path to the private key file.
-    #
-    # Note: The private key can also be included inline via the privateKey option,
-    # but this makes the private key world-readable; thus, using privateKeyFile is
-    # recommended.
-    privateKeyFile = "/mnt/data/wireguard/private-key";
-
-    peers = [
-      { # Android
-        publicKey = "mFSLE2wdyrjQvsk3Y9uw2gu4EfV4yoenuQhMPSgHiWM=";
-        #presharedKeyFile = "/mnt/data/wireguard/android-preshared-key";
-        allowedIPs = [ "10.100.0.2/32" ];
-      }
-    ];
-  };
-
 
   # List services that you want to enable:
 
   # Trim ssds weekly
   services.fstrim.enable = true;
-
-  # Enable fail2ban
-  services.fail2ban = {
-    #enable = true;
-    ignoreIP = [
-      "127.0.0.0/8"
-      "172.16.0.0/12"
-      "10.0.1.0/24"
-    ];
-    #jails = {
-    #  "nginx-spam" = ''
-    #    enabled  = true
-    #    filter   = nginx-spam
-    #    logpath  = /var/log/nginx/access.log
-    #    backend  = auto
-    #    maxretry = 3
-    #    findtime = 600
-    #  '';
-    #};
-  };
-
-  # fail2ban custom filters
-  environment.etc."fail2ban/filter.d/nginx-spam.conf".text = ''
-    [Definition]
-    failregex = <HOST>.*" (31|40|51|53|301).*$
-  '';
 
   # Enable the OpenSSH daemon.
   services.openssh = {
@@ -165,23 +104,6 @@ in {
       PermitRootLogin = "yes";
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
-    };
-  };
-
-  services.radicale = {
-    enable = true;
-    settings = {
-      server = {
-        hosts = [ "127.0.0.1:5232" ];
-        ssl = false;
-      };
-      auth = {
-        type = "htpasswd";
-        htpasswd_filename = "/mnt/data/radicale/users";
-        htpasswd_encryption = "md5";
-      };
-      storage.filesystem_folder = "/mnt/data/radicale/collections";
-      web.type = "none";
     };
   };
 
@@ -200,16 +122,6 @@ in {
     virtualHosts."home.madsmogensen.dk" =  {
       enableACME = true;
       forceSSL = true;
-
-      locations."/radicale/" = {
-        proxyPass = "http://localhost:5232/";
-        extraConfig =
-          "proxy_set_header  X-Script-Name /radicale;" +
-          "proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;" +
-          "proxy_set_header  Host $host;" +
-          "proxy_pass_header Authorization;"
-          ;
-      };
     };
 
     virtualHosts."file.madsmogensen.dk" = {
@@ -218,22 +130,17 @@ in {
       root = "/mnt/data/file.madsmogensen.dk/www";
     };
 
+    virtualHosts."spotify.madsmogensen.dk" = {
+      enableACME = true;
+      forceSSL = true;
+    };
+
     virtualHosts."server-mads.lan" =  {
       # Only allow local connections to this virtual host
       extraConfig =
           "allow 10.0.1.0/24;" +
           "deny all;"
           ;
-
-      locations."/radicale/" = {
-        proxyPass = "http://localhost:5232/";
-        extraConfig =
-          "proxy_set_header  X-Script-Name /radicale;" +
-          "proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;" +
-          "proxy_set_header  Host $host;" +
-          "proxy_pass_header Authorization;"
-          ;
-      };
     };
   };
 
@@ -252,20 +159,6 @@ in {
     eula = true;
     dataDir = "/mnt/data/minecraft-aau";
     openFirewall = true;
-  };
-
-  # Exchange to imap / smtp gateway
-  services.davmail = {
-    enable = true;
-    url = "https://mail.aau.dk/EWS/Exchange.asmx";
-    config = {
-      davmail.mode = "EWS";
-      davmail.allowRemote = true;
-      davmail.ssl.keystoreType = "PKCS12";
-      davmail.ssl.keyPass = "davmail";
-      davmail.ssl.keystoreFile = "/mnt/data/davmail/davmail.p12";
-      davmail.ssl.keystorePass = "davmail";
-    };
   };
 
   # Automatically download new youtube videos daily
@@ -302,10 +195,9 @@ in {
   };
 
 
-
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 config.services.davmail.config.davmail.imapPort config.services.davmail.config.davmail.smtpPort 25566 ];
-  networking.firewall.allowedUDPPorts = [ 80 443 config.networking.wireguard.interfaces."wg0".listenPort 25566 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 25566 ];
+  networking.firewall.allowedUDPPorts = [ 80 443 25566 ];
 
   system.autoUpgrade = {
     enable = true;
@@ -332,7 +224,7 @@ in {
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 
 }
 
