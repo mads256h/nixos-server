@@ -34,13 +34,27 @@
       port = 9002;
     };
 
+    exporters.nginx = {
+      enable = true;
+      port = 9003;
+    };
+
     scrapeConfigs = [
       {
         job_name = "server";
         static_configs = [{
-          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ];
+          targets = [
+            "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
+            "127.0.0.1:${toString config.services.prometheus.exporters.nginx.port}"
+          ];
         }];
       }
     ];
+  };
+
+  services.nginx.virtualHosts."localhost" = {
+    locations."/nginx_status" = {
+      extraConfig = "stub_status;";
+    };
   };
 }

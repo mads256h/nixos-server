@@ -16,12 +16,8 @@ in {
       ./hardware-configuration.nix
       <nixpkgs/nixos/modules/profiles/minimal.nix>
       <nixpkgs/nixos/modules/profiles/hardened.nix>
-      ./minecraft.nix
-      ./wireguard.nix
-      ./monitoring.nix
-      ./radicale.nix
-      ./davmail.nix
-      ./your_spotify.nix
+      ./modules/all.nix
+      ./services/all.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -107,42 +103,6 @@ in {
     };
   };
 
-  security.acme.acceptTerms = true;
-  security.acme.defaults.email = "mail@madsmogensen.dk";
-
-  services.nginx = {
-    enable = true;
-
-    # recommended settings
-    recommendedGzipSettings = true;
-    recommendedOptimisation = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-
-    virtualHosts."home.madsmogensen.dk" =  {
-      enableACME = true;
-      forceSSL = true;
-    };
-
-    virtualHosts."file.madsmogensen.dk" = {
-      enableACME = true;
-      forceSSL = true;
-      root = "/mnt/data/file.madsmogensen.dk/www";
-    };
-
-    virtualHosts."spotify.madsmogensen.dk" = {
-      enableACME = true;
-      forceSSL = true;
-    };
-
-    virtualHosts."server-mads.lan" =  {
-      # Only allow local connections to this virtual host
-      extraConfig =
-          "allow 10.0.1.0/24;" +
-          "deny all;"
-          ;
-    };
-  };
 
   services.minecraft-ftb-server = {
     enable = false;
@@ -194,10 +154,6 @@ in {
     };
   };
 
-
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 25566 ];
-  networking.firewall.allowedUDPPorts = [ 80 443 25566 ];
 
   system.autoUpgrade = {
     enable = true;
