@@ -17,8 +17,5 @@
     ];
   };
 
-  networking.firewall.allowedTCPPorts = [
-    config.services.davmail.config.davmail.imapPort
-    config.services.davmail.config.davmail.smtpPort
-  ];
+  networking.firewall.allowedUDPPorts = [config.networking.wg-quick.interfaces."wg0".listenPort];
 }

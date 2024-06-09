@@ -16,5 +16,16 @@
     };
   };
 
-  networking.firewall.allowedUDPPorts = [config.networking.wg-quick.interfaces."wg0".listenPort];
+  networking.firewall.allowedTCPPorts = [
+    config.services.davmail.config.davmail.imapPort
+    config.services.davmail.config.davmail.smtpPort
+  ];
+
+  # Hack: No xlibs pls
+  nixpkgs.overlays = [
+    (final: prev:
+    {
+      davmail = prev.davmail.override { zulu = pkgs.jdk21_headless; gtk3 = pkgs.coreutils; libXtst = pkgs.coreutils; };
+    })
+  ];
 }

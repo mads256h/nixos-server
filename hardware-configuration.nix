@@ -36,6 +36,7 @@
   fileSystems."/mnt/share" =
     { device = "/dev/disk/by-uuid/51a551fa-d1ba-4c83-8ad5-bfcab4496f29";
       fsType = "btrfs";
+      options = [ "defaults" "noexec" "nodev" "nosuid" ];
     };
 
 
@@ -44,6 +45,7 @@
   fileSystems."/mnt/data" =
     { device = "/dev/disk/by-uuid/acb26053-df19-42f5-90b7-9e29079db53c";
       fsType = "ext4";
+      options = [ "defaults" "nodev" "nosuid" "errors=remount-ro" ];
     };
 
   services.btrfs.autoScrub.enable = true;

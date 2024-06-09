@@ -27,6 +27,11 @@
       forceSSL = true;
     };
 
+    virtualHosts."webdav.madsmogensen.dk" =  {
+      enableACME = true;
+      forceSSL = true;
+    };
+
     virtualHosts."server-mads.lan" =  {
       # Only allow local connections to this virtual host
       extraConfig =

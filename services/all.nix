@@ -5,10 +5,13 @@
   imports = 
     [
       ./davmail.nix
+      ./minidlna.nix
       ./monitoring.nix
       ./nfs.nix
       ./nginx.nix
       ./radicale.nix
+      ./transmission.nix
+      ./webdav.nix
       ./wireguard.nix
       ./your_spotify.nix
     ];

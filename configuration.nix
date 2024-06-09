@@ -46,6 +46,8 @@ in {
 
   nixpkgs.config.allowUnfree = true;
 
+  hardware.enableRedistributableFirmware = true;
+
 
   users = {
     mutableUsers = false;
@@ -68,6 +70,7 @@ in {
     bind
     git
     wireguard-tools
+    hdparm
   ];
 
   programs = {
