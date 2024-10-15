@@ -4,7 +4,6 @@
 {
   imports = 
     [
-      ./davmail.nix
       ./minidlna.nix
       ./monitoring.nix
       ./nfs.nix

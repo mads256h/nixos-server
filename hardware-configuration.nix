@@ -8,27 +8,32 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" "tun" "bridge" "veth" "wireguard" ];
+  boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
 
   # Root
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/77044032-08ab-48bd-8961-331e34fdfb11";
-      fsType = "ext4";
+    { device = "/dev/disk/by-uuid/258ba2f6-9932-47e3-9b34-e11cc747e127";
+      fsType = "btrfs";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/E016-3485";
+    { device = "/dev/disk/by-uuid/12CE-A600";
       fsType = "vfat";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/5e7a9c5c-1137-4882-9a70-766477d888d9"; }
+    [ { device = "/dev/disk/by-uuid/cfb6f323-2397-4508-8f65-e6ac4e3aeea4"; }
     ];
+
+  boot.tmp = {
+    useTmpfs = true;
+    tmpfsSize = "256g";
+  };
 
 
   # Share

@@ -18,12 +18,4 @@
     # SSDP
     allowedUDPPorts = [ 1900 ];
   };
-
-
-  nixpkgs.overlays = [
-    (final: prev:
-    {
-      minidlna = prev.minidlna.override { ffmpeg = pkgs.ffmpeg-headless; };
-    })
-  ];
 }

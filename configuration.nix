@@ -29,10 +29,8 @@ in {
   security.lockKernelModules = false;
   security.protectKernelImage = false;
 
-  environment.noXlibs = false;
-
   networking.useDHCP = false;
-  networking.interfaces.enp1s0.useDHCP = true;
+  networking.interfaces.enp2s0.useDHCP = true;
   networking.hostName = "server-mads";
 
   # Set your time zone.
@@ -71,6 +69,7 @@ in {
     git
     wireguard-tools
     hdparm
+    smartmontools
   ];
 
   programs = {
@@ -87,6 +86,15 @@ in {
         show_cpu_frequency = true;
         show_cpu_temperature = true;
       };
+    };
+
+    tmux = {
+      enable = true;
+      clock24 = true;
+      escapeTime = 0;
+      historyLimit = 25000;
+      keyMode = "vi";
+      secureSocket = false;
     };
   };
 
@@ -165,6 +173,10 @@ in {
     # Prevent silencing of build output
     flags = lib.mkForce [];
   };
+
+  # Timeout after 48 hours
+  # This intends to fix issues where nix build gets struck
+  systemd.services.nixos-upgrade.serviceConfig.TimeoutSec = 172800;
 
   nix.gc = {
     automatic = true;

@@ -39,6 +39,11 @@
       port = 9003;
     };
 
+    exporters.smartctl = {
+      enable = true;
+      port = 9004;
+    };
+
     scrapeConfigs = [
       {
         job_name = "server";
@@ -46,6 +51,7 @@
           targets = [
             "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
             "127.0.0.1:${toString config.services.prometheus.exporters.nginx.port}"
+            "127.0.0.1:${toString config.services.prometheus.exporters.smartctl.port}"
           ];
         }];
       }
