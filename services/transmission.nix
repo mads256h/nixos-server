@@ -6,9 +6,6 @@
     enable = true;
     openPeerPorts = true;
     settings = {
-      watch-dir = "/mnt/share/torrents/watch";
-      watch-dir-enabled = true;
-
       incomplete-dir = "/mnt/share/torrents/incomplete";
       incomplete-dir-enabled = true;
 

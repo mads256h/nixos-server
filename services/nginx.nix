@@ -11,6 +11,9 @@
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
+    # Allow your_spotify to import json files
+    clientMaxBodySize = "500M";
+
     virtualHosts."home.madsmogensen.dk" =  {
       enableACME = true;
       forceSSL = true;
