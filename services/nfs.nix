@@ -5,6 +5,7 @@
   services.nfs.server = {
     enable = true;
     exports = ''
+      /export/share  10.0.1.217(ro,insecure)
       /export/share  10.0.1.0/24(rw)
     '';
     createMountPoints = true;
@@ -16,9 +17,12 @@
       options = [ "bind" ];
     };
 
+  # rpcbind
+  services.rpcbind.enable = true;
+
   # Allow through firewall
   networking.firewall.interfaces."enp1s0" = {
-    allowedTCPPorts = [ 2049 ];
-    allowedUDPPorts = [ 2049 ];
+    allowedTCPPorts = [ 111 2049 20048 ];
+    allowedUDPPorts = [ 111 2049 20048 ];
   };
 }

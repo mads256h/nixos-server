@@ -70,6 +70,7 @@ in {
     wireguard-tools
     hdparm
     smartmontools
+    git-annex
   ];
 
   programs = {
@@ -170,7 +171,7 @@ in {
 
   system.autoUpgrade = {
     enable = true;
-    allowReboot = true;
+ #   allowReboot = true;
 
     # Prevent silencing of build output
     flags = lib.mkForce [];

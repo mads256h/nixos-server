@@ -24,6 +24,7 @@
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/12CE-A600";
       fsType = "vfat";
+      options = [ "defaults" "fmask=0077" "dmask=0077" "noexec" "nodev" "nosuid" ];
     };
 
   swapDevices =
@@ -41,7 +42,7 @@
   fileSystems."/mnt/share" =
     { device = "/dev/disk/by-uuid/51a551fa-d1ba-4c83-8ad5-bfcab4496f29";
       fsType = "btrfs";
-      options = [ "defaults" "noexec" "nodev" "nosuid" ];
+      options = [ "defaults" "nodev" "nosuid" ];
     };
 
 
